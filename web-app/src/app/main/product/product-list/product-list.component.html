@@ -1,0 +1,22 @@
+<table class="table">
+  <thead class="thead-dark">
+  <th>#</th>
+  <th></th>
+  <th>sku</th>
+  <th>name</th>
+  <th>price</th>
+  <th>category</th>
+  </thead>
+  <tbody>
+  <tr *ngFor="let product of productList , let i=index">
+    <td>{{i + 1}}</td>
+    <td>
+      <img src="{{product.imageUrl}}" height="110"width="110"/>
+    </td>
+    <td>{{product.sku}}</td>
+    <td>{{product.name}}</td>
+    <td>{{product.unitPrice | currency:"EGP"}}</td>
+    <td>{{product.category != null ? product.category.categoryName : null}}</td>
+  </tr>
+  </tbody>
+</table>
