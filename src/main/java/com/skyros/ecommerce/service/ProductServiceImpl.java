@@ -9,6 +9,10 @@ import com.skyros.ecommerce.repo.ProductRepo;
 import com.skyros.ecommerce.vo.CategoryVO;
 import com.skyros.ecommerce.vo.ProductVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -61,6 +65,15 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductVO> findProductsByCategory(Long id) {
         List<Product> productList = productRepo.findProductByCategoryId(id);
         List<ProductVO> productVOS = productMapper.entityListToVOList(productList);
+        return productVOS;
+    }
+
+    @Override
+    public Page<ProductVO> findProductPage(int page, int pageSize) {
+        Sort sortByName = Sort.by("name");
+        Pageable pageable = PageRequest.of(page, pageSize, sortByName);
+        Page<Product> productPage = productRepo.findAll(pageable);
+        Page<ProductVO> productVOS = productMapper.entityPageToVOPage(productPage);
         return productVOS;
     }
 }

@@ -3,15 +3,14 @@ package com.skyros.ecommerce.controller;
 import com.skyros.ecommerce.service.ProductService;
 import com.skyros.ecommerce.vo.ProductVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("products")
+@CrossOrigin({"http://127.0.0.1:4200/", "http://localhost:4200/"})
 public class ProductController {
 
     @Autowired
@@ -20,6 +19,12 @@ public class ProductController {
     @GetMapping("findAll")
     List<ProductVO> findProductList() {
         return productService.findProductList();
+    }
+
+    //@GetMapping("findPage/{page}/{pageSize}")
+    @GetMapping(params = {"page", "pageSize"})
+    Page<ProductVO> findProductPage(@RequestParam int page, @RequestParam int pageSize) {
+        return productService.findProductPage(page, pageSize);
     }
 
     @GetMapping("findAll/{id}")

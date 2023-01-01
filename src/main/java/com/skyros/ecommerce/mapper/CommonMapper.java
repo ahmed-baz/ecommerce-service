@@ -1,6 +1,6 @@
 package com.skyros.ecommerce.mapper;
 
-import org.mapstruct.Mapper;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -8,6 +8,8 @@ import java.util.List;
 public interface CommonMapper<E, VO> {
 
     List<VO> entityListToVOList(List<E> entityList);
+
+    Page<VO> entityPageToVOPage(Page<E> page);
 
     VO entityToVO(E e);
 
