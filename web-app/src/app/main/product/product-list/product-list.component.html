@@ -1,6 +1,5 @@
-<table class="table">
+<table class="table" style="margin-top: 76px">
   <thead class="thead-dark">
-  <th>#</th>
   <th></th>
   <th>sku</th>
   <th>name</th>
@@ -9,9 +8,8 @@
   </thead>
   <tbody>
   <tr *ngFor="let product of productList , let i=index">
-    <td>{{i + 1}}</td>
     <td>
-      <img src="{{product.imageUrl}}" height="110"width="110"/>
+      <img src="{{product.imageUrl}}" height="110" width="110"/>
     </td>
     <td>{{product.sku}}</td>
     <td>{{product.name}}</td>
