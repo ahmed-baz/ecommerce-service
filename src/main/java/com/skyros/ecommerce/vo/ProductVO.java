@@ -3,11 +3,12 @@ package com.skyros.ecommerce.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
-public class ProductVO {
+public class ProductVO implements Serializable {
     private long id;
     private CategoryVO category;
     private String sku;
