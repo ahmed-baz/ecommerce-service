@@ -9,7 +9,7 @@ public interface CommonMapper<E, VO> {
 
     List<VO> entityListToVOList(List<E> entityList);
 
-    //Page<VO> entityPageToVOPage(Page<E> page);
+    Page<VO> entityPageToVOPage(Page<E> page);
 
     VO entityToVO(E e);
 

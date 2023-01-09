@@ -95,7 +95,8 @@ public class ProductServiceImpl implements ProductService {
         Sort sortByName = Sort.by("name");
         Pageable pageable = PageRequest.of(page, pageSize, sortByName);
         Page<Product> productPage = productRepo.findAll(pageable);
-        //Page<ProductVO> productVOS = productMapper.entityPageToVOPage(productPage);
-        return null;
+        List<ProductVO> productVOList = productMapper.entityListToVOList(productPage.getContent());
+        Page<ProductVO> productVOPage = productMapper.entityPageToVOPage(productPage);
+        return productVOPage;
     }
 }
