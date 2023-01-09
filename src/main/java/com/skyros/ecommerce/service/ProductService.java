@@ -16,6 +16,8 @@ public interface ProductService {
 
     List<ProductVO> findProductsByCategory(Long id);
 
+    Page<ProductVO> findProductsByCategory(Long id, int page, int pageSize);
+
     List<CategoryVO> findCategoryList();
 
     CategoryVO addCategory(CategoryVO categoryVO);

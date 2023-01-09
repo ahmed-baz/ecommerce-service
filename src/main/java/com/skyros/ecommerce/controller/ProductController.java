@@ -31,6 +31,11 @@ public class ProductController {
         return productService.findProductsByCategory(id);
     }
 
+    @GetMapping("/findPageByCategory")
+    Page<ProductVO> findProductList(@RequestParam Long id, @RequestParam int page, @RequestParam int size) {
+        return productService.findProductsByCategory(id, page, size);
+    }
+
     @GetMapping("/findBySku/{sku}")
     ProductVO findProductBySku(@PathVariable String sku) {
         return productService.findProductBySku(sku);

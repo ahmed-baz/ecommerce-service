@@ -91,11 +91,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Page<ProductVO> findProductsByCategory(Long id, int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<Product> productPage = productRepo.findProductByCategoryId(id, pageable);
+        Page<ProductVO> productVOPage = productMapper.entityPageToVOPage(productPage);
+        return productVOPage;
+    }
+
+    @Override
     public Page<ProductVO> findProductPage(int page, int pageSize) {
         Sort sortByName = Sort.by("name");
         Pageable pageable = PageRequest.of(page, pageSize, sortByName);
         Page<Product> productPage = productRepo.findAll(pageable);
-        List<ProductVO> productVOList = productMapper.entityListToVOList(productPage.getContent());
         Page<ProductVO> productVOPage = productMapper.entityPageToVOPage(productPage);
         return productVOPage;
     }
