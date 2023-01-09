@@ -20,5 +20,7 @@ public interface ProductService {
 
     CategoryVO addCategory(CategoryVO categoryVO);
 
+    CategoryVO updateCategory(CategoryVO categoryVO);
+
     CategoryVO findCategoryById(Long id);
 }

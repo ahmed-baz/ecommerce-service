@@ -24,6 +24,11 @@ public class CategoryController {
         return productService.addCategory(categoryVO);
     }
 
+    @PutMapping("update")
+    CategoryVO updateCategory(@RequestBody CategoryVO categoryVO) {
+        return productService.updateCategory(categoryVO);
+    }
+
     @GetMapping("findById/{id}")
     CategoryVO findCategoryById(@PathVariable Long id) {
         return productService.findCategoryById(id);

@@ -9,7 +9,9 @@ import com.skyros.ecommerce.repo.ProductRepo;
 import com.skyros.ecommerce.vo.CategoryVO;
 import com.skyros.ecommerce.vo.ProductVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -54,7 +56,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Caching(
+            evict = {@CacheEvict(value = "category_list", allEntries = true)}
+    )
     public CategoryVO addCategory(CategoryVO categoryVO) {
+        Category category = categoryMapper.VOToEntity(categoryVO);
+        Category savedCategory = categoryRepo.save(category);
+        return categoryMapper.entityToVO(savedCategory);
+    }
+
+    @Override
+    @CacheEvict(value = "category_list", allEntries = true)
+    public CategoryVO updateCategory(CategoryVO categoryVO) {
         Category category = categoryMapper.VOToEntity(categoryVO);
         Category savedCategory = categoryRepo.save(category);
         return categoryMapper.entityToVO(savedCategory);
