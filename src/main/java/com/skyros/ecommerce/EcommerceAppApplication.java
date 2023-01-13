@@ -11,6 +11,7 @@ public class EcommerceAppApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         SpringApplication.run(EcommerceAppApplication.class, args);
+        System.setProperty("spring.config.name", "internal-app-prop");
     }
 
 }
