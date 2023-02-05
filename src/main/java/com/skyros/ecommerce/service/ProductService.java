@@ -1,5 +1,6 @@
 package com.skyros.ecommerce.service;
 
+import com.skyros.ecommerce.citeria.ProductCriteria;
 import com.skyros.ecommerce.vo.CategoryVO;
 import com.skyros.ecommerce.vo.ProductVO;
 import org.springframework.data.domain.Page;
@@ -12,7 +13,11 @@ public interface ProductService {
 
     Page<ProductVO> findProductPage(int page, int pageSize);
 
+    Page<ProductVO> findProductPageByCriteria(ProductCriteria productCriteria);
+
     List<ProductVO> findProductList();
+
+    List<ProductVO> addProductList(List<ProductVO> productVOS);
 
     List<ProductVO> findProductsByCategory(Long id);
 

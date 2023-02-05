@@ -1,5 +1,6 @@
 package com.skyros.ecommerce.controller;
 
+import com.skyros.ecommerce.citeria.ProductCriteria;
 import com.skyros.ecommerce.service.ProductService;
 import com.skyros.ecommerce.vo.ProductVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,19 @@ public class ProductController {
         return productService.findProductList();
     }
 
+    @PostMapping("/addList")
+    List<ProductVO> addProductList(List<ProductVO> productVOS) {
+        return productService.addProductList(productVOS);
+    }
+
     @GetMapping("/findProductPage")
     Page<ProductVO> findProductPage(@RequestParam int page, @RequestParam int size) {
         return productService.findProductPage(page, size);
+    }
+
+    @GetMapping("/findPageByCriteria")
+    Page<ProductVO> findProductPageLike(@RequestBody ProductCriteria productCriteria) {
+        return productService.findProductPageByCriteria(productCriteria);
     }
 
     @GetMapping("/findAll/{id}")

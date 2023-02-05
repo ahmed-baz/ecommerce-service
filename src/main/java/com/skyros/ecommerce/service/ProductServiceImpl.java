@@ -1,21 +1,20 @@
 package com.skyros.ecommerce.service;
 
+import com.skyros.ecommerce.citeria.ProductCriteria;
 import com.skyros.ecommerce.entity.Category;
 import com.skyros.ecommerce.entity.Product;
 import com.skyros.ecommerce.mapper.CategoryMapper;
 import com.skyros.ecommerce.mapper.ProductMapper;
 import com.skyros.ecommerce.repo.CategoryRepo;
 import com.skyros.ecommerce.repo.ProductRepo;
+import com.skyros.ecommerce.specification.ProductSpecification;
 import com.skyros.ecommerce.vo.CategoryVO;
 import com.skyros.ecommerce.vo.ProductVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,6 +44,14 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductVO> findProductList() {
         List<Product> productList = productRepo.findAll();
         List<ProductVO> productVOS = productMapper.entityListToVOList(productList);
+        return productVOS;
+    }
+
+    @Override
+    public List<ProductVO> addProductList(List<ProductVO> productVOS) {
+        List<Product> productList = productMapper.VOListToEntityList(productVOS);
+        productList = productRepo.saveAll(productList);
+        productVOS = productMapper.entityListToVOList(productList);
         return productVOS;
     }
 
@@ -99,11 +106,25 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    //@Cacheable(value = "product_page", key = "new org.springframework.cache.interceptor.SimpleKey(#page, #pageSize)")
     public Page<ProductVO> findProductPage(int page, int pageSize) {
         Sort sortByName = Sort.by("name");
         Pageable pageable = PageRequest.of(page, pageSize, sortByName);
         Page<Product> productPage = productRepo.findAll(pageable);
         Page<ProductVO> productVOPage = productMapper.entityPageToVOPage(productPage);
+        return productVOPage;
+    }
+
+    @Override
+    public Page<ProductVO> findProductPageByCriteria(ProductCriteria productCriteria) {
+        ProductSpecification productSpecification = new ProductSpecification();
+        productSpecification.setProductCriteria(productCriteria);
+        List<Product> productList = productRepo.findAll(productSpecification);
+        List<ProductVO> productVOList = productMapper.entityListToVOList(productList);
+        Pageable pageable = PageRequest.of(productCriteria.getPage(), productCriteria.getPageSize());
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), productVOList.size());
+        Page<ProductVO> productVOPage = new PageImpl<>(productVOList.subList(start, end), pageable, productVOList.size());
         return productVOPage;
     }
 }
